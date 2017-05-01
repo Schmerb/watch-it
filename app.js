@@ -14,14 +14,23 @@ function getDataFromApi(searchTerm, callback) {
 function displayYoutubeSearchData(data) {
 	console.log(data);
 	var results = data.items;
-	var resultElement = '';
 	results.forEach(function(item){
-		resultElement += '<li><img class="Img" id="' + item.id.videoId + '" src="' + item.snippet.thumbnails.medium.url + '"></li>';
+		var img = $('<img class="Img">');
+		img.attr('src', item.snippet.thumbnails.medium.url);
+		img.attr('id', item.id.videoId);
+		$('.js-results ul').append(img);
+		img.wrap($("<li></li>"));
 	});
-
-	$('.js-results ul').html(resultElement);
 }
 
+function openVideo(videoID) {
+	var win = window.open('https://www.youtube.com/watch?v=' + videoID, '_blank');
+	if (win) {
+		win.focus();
+	} else {
+		alert('Please enable pop-ups for this website');
+	}
+}
 
 // 
 // 
@@ -29,7 +38,7 @@ function displayYoutubeSearchData(data) {
 function watchResults() {
 	$('ul').on('click', 'img', function(e){
 		e.preventDefault();
-		alert('Video id = ' + $(this).attr('id'));
+		openVideo($(this).attr('id'));
 	});
 }
 
