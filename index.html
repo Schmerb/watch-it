@@ -10,17 +10,27 @@
 			<h1>Watch It</h1>
 		</nav>
 	<div class="container">
+
 		<form class="query-form js-query-form">
 			<label for="query">Search Youtube:</label>
 			<input type="text" class="query js-query" id="query" name="search">
 			<button type="submit">Search</button>
 		</form>
 
+		<button class="modal-btn js-modal-btn">Open Modal</button>
+		<div id="myModal" class="modal">
+			<div class="modal-content">
+				<span class="close js-close">&times;</span>
+				<p>Some text in the Modal...</p>
+			</div>
+		</div>
+
 		<section class="js-results">
 			<p>results:</p>
 			<ul>
 			</ul>
 		</section>
+
 	</div>
 	<script src="https://code.jquery.com/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="app.js"></script>
