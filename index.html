@@ -17,18 +17,27 @@
 			<button type="submit">Search</button>
 		</form>
 
-		<button class="modal-btn js-modal-btn">Open Modal</button>
 		<div id="myModal" class="modal">
 			<div class="modal-content">
 				<span class="close js-close">&times;</span>
-				<p>Some text in the Modal...</p>
+
+				<div class="video-wrap">
+					<div class="iframe-container">
+						<iframe id="iframe" class="iframe" allowfullscreen></iframe>
+					</div>
+					<label for="iframe-container" class="chanel">
+						Check out more<br>videos from <a href="#" id="chanelName" target="_blank"></a>
+					</label>
+				</div>
+
 			</div>
 		</div>
 
-		<section class="js-results">
+		<section class="results js-results">
 			<p>results:</p>
 			<ul>
 			</ul>
+			<span class="more js-more hidden">more</span>
 		</section>
 
 	</div>
