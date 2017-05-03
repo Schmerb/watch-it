@@ -6,6 +6,7 @@ var state = {
 
 var YOUTUBE_BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
 
+
 // ================================================================================
 // Lightbox and video functionality methods
 // ================================================================================ 
@@ -88,6 +89,8 @@ function openYoutubeChannel(channelID) {
 // API calls and data storage & display
 // ================================================================================ 
 
+var MAX_RESULTS = 10; // maximum # of results objects returned by API call
+
 // 
 // Call to API to fetch data based on 
 // search criteria given
@@ -98,7 +101,7 @@ function getDataFromApi(searchTerm, callback) {
 		key: 'AIzaSyArJZeQtHAkxb2QjD3ho-2H-XR4NcWOkss',
 		q: searchTerm,
 		type: 'video',
-		maxResults: 10
+		maxResults: MAX_RESULTS
 	};
 	$.getJSON(YOUTUBE_BASE_URL, query, callback);
 }
@@ -114,14 +117,14 @@ function getNextPageFromApi(searchTerm, nextPageToken, callback) {
 		q: searchTerm,
 		pageToken: nextPageToken,
 		type: 'video',
-		maxResults: 10
+		maxResults: MAX_RESULTS
 	};
 	$.getJSON(YOUTUBE_BASE_URL, query, callback);
 }
 
 
 // 
-// 
+// Callback function handler
 // 
 function handleApiData(data) {
 	storeYoutubeSearchData(data);
@@ -147,13 +150,24 @@ function storeYoutubeSearchData(data) {
 function displayYoutubeSearchData() {
 	var results = state.videos;
 	if(results.length > 0) {
-		results.forEach(function(item){
-			var img = $('<img class="thumbnail">');
-			img.attr('src', item.snippet.thumbnails.medium.url);
-			img.attr('id', item.id.videoId);
-			$('.js-results ul').append(img);
-			$('.js-more').removeClass('hidden');
-		});
+		// loops through most recent search page members of video array
+		for(var i = results.length - MAX_RESULTS; i < results.length; i++) {
+				var img = $('<img class="thumbnail">');
+				item = state.videos[i];
+				img.attr('src', item.snippet.thumbnails.medium.url);
+				img.attr('id', item.id.videoId);
+				var label = $('<label></label>');
+				label.css('display', 'block');
+				label.attr('for', img.attr('id'));
+				label.text(item.snippet.title);
+				var div = $('<div></div>');
+				div.css('display', 'inline-block');
+				div.append(img);
+				div.append(label);
+				$('.js-results ul').append(div);
+				$('.js-more').removeClass('hidden');
+				$('.js-results').removeClass('hidden');
+		}
 	}
 }
 
@@ -168,6 +182,7 @@ function formSubmit() {
 	$('.query-form').submit(function(e) {
 		e.preventDefault();
 		$('.js-results ul').empty();
+		state.videos = [];
 		state.query = $(this).find('.js-query').val();
 		getDataFromApi(state.query, handleApiData);
 	});
@@ -199,6 +214,7 @@ function closeLightbox() {
 function getMoreResults() {
 	$('.js-more').click(function(e) {
 		e.preventDefault();
+		//$('.js-results ul').empty();
 		getNextPageFromApi(state.query, state.data.nextPageToken, handleApiData);
 	});
 }

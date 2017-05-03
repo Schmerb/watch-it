@@ -4,6 +4,7 @@
 	<title>Youtube Search</title>
 	<meta charset="utf-8" name="Youtube Search" content="A forum to search videos on youtube and view results in browser via YouTube's public API.">
 	<link rel="stylesheet" type="text/css" href="styles/main.css">
+	<link href="https://fonts.googleapis.com/css?family=Orbitron|Roboto+Condensed" rel="stylesheet">
 </head>
 <body>
 		<nav>
@@ -11,10 +12,12 @@
 		</nav>
 	<div class="container">
 
-		<form class="query-form js-query-form">
+		<form class="query-form js-query-form" autocomplete="off">
 			<label for="query">Search Youtube:</label>
-			<input type="text" class="query js-query" id="query" name="search">
-			<button type="submit">Search</button>
+			<input type="text" class="query js-query" id="query" name="search" placeholder="Explore the Cosmos..." required>
+			<div>
+				<button class="submit" type="submit">Search</button>
+			</div>
 		</form>
 
 		<div id="myModal" class="modal">
@@ -34,11 +37,11 @@
 		</div>  <!--  modal div-->
 
 		<section class="results js-results">
-			<p>results:</p>
+			<p class="js-results hidden">results:</p>
 			<ul>
 			</ul>
 			<div class="more-container">
-				<span class="more js-more">more</span>
+				<span class="more js-more hidden">more</span>
 			</div>
 		</section>
 
