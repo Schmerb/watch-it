@@ -1,9 +1,10 @@
 var state = {
+	query: '',
+	data: {},
 	videos: []
 };
 
 var YOUTUBE_BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
-
 
 // ================================================================================
 // Lightbox and video functionality methods
@@ -88,17 +89,43 @@ function openYoutubeChannel(channelID) {
 // ================================================================================ 
 
 // 
-// Displays the results from the API call in the browser
+// Call to API to fetch data based on 
+// search criteria given
 // 
-function displayYoutubeSearchData() {
-	var results = state.videos;
-	results.forEach(function(item){
-		var img = $('<img class="thumbnail">');
-		img.attr('src', item.snippet.thumbnails.medium.url);
-		img.attr('id', item.id.videoId);
-		$('.js-results ul').append(img);
-		$('.js-more').removeClass('hidden');
-	});
+function getDataFromApi(searchTerm, callback) {
+	var query = {
+		part: 'snippet',
+		key: 'AIzaSyArJZeQtHAkxb2QjD3ho-2H-XR4NcWOkss',
+		q: searchTerm,
+		type: 'video',
+		maxResults: 10
+	};
+	$.getJSON(YOUTUBE_BASE_URL, query, callback);
+}
+
+
+// 
+// Another call to API to fetch next page of results
+// 
+function getNextPageFromApi(searchTerm, nextPageToken, callback) {
+	var query = {
+		part: 'snippet',
+		key: 'AIzaSyArJZeQtHAkxb2QjD3ho-2H-XR4NcWOkss',
+		q: searchTerm,
+		pageToken: nextPageToken,
+		type: 'video',
+		maxResults: 10
+	};
+	$.getJSON(YOUTUBE_BASE_URL, query, callback);
+}
+
+
+// 
+// 
+// 
+function handleApiData(data) {
+	storeYoutubeSearchData(data);
+	displayYoutubeSearchData();
 }
 
 
@@ -109,43 +136,46 @@ function displayYoutubeSearchData() {
 // 
 function storeYoutubeSearchData(data) {
 	console.log(data);
-	state.videos = data.items;
-	displayYoutubeSearchData();
+	state.data = data;
+	state.videos.push.apply(state.videos, data.items);
 }
 
 
 // 
-// Call to API to fetch data based on 
-// search criteria given
+// Displays the results from the API call in the browser
 // 
-function getDataFromApi(searchTerm, callback) {
-	var query = {
-		part: 'snippet',
-		key: 'AIzaSyArJZeQtHAkxb2QjD3ho-2H-XR4NcWOkss',
-		q: searchTerm,
-		type: 'video',
-		maxResults: 50
-	};
-	$.getJSON(YOUTUBE_BASE_URL, query, callback);
+function displayYoutubeSearchData() {
+	var results = state.videos;
+	if(results.length > 0) {
+		results.forEach(function(item){
+			var img = $('<img class="thumbnail">');
+			img.attr('src', item.snippet.thumbnails.medium.url);
+			img.attr('id', item.id.videoId);
+			$('.js-results ul').append(img);
+			$('.js-more').removeClass('hidden');
+		});
+	}
 }
+
+
 
 
 // ================================================================================
 // Event Listeners 
 // ================================================================================
+
 function formSubmit() {
 	$('.query-form').submit(function(e) {
 		e.preventDefault();
 		$('.js-results ul').empty();
-		var query = $(this).find('.js-query').val();
-		getDataFromApi(query, storeYoutubeSearchData);
+		state.query = $(this).find('.js-query').val();
+		getDataFromApi(state.query, handleApiData);
 	});
 }
 
 function toggleVideo() {
 	$('ul').on('click', 'img', function(e){
 		e.preventDefault();
-		//openVideo($(this).attr('id'));
 		var videoID = $(this).attr('id');
 		videoHandler(videoID);
 	});
@@ -166,6 +196,13 @@ function closeLightbox() {
 	});
 }
 
+function getMoreResults() {
+	$('.js-more').click(function(e) {
+		e.preventDefault();
+		getNextPageFromApi(state.query, state.data.nextPageToken, handleApiData);
+	});
+}
+
 
 // ================================================================================
 // Entry point event-listeners 
@@ -174,4 +211,5 @@ $(function() {
 	formSubmit();
 	toggleVideo();
 	closeLightbox();
+	getMoreResults();
 });

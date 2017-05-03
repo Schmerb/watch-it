@@ -99,7 +99,8 @@ nav h1 {
 }
 
 .close:hover,
-.close:focus {
+.close:focus,
+.more:hover {
 	color: #000;
 	cursor: pointer;
 	text-decoration: none;
@@ -120,13 +121,17 @@ nav h1 {
 	box-shadow: 5px 5px rgba(0,0,0,0.6);
 }
 
-
-
-.more {
-	display: block;
-	margin: auto;
+.more-container {
 	text-align: center;
 }
+
+.more {
+	display: inline-block;
+	margin: auto;
+	text-align: center;
+	font-size: 20px;
+}
+
 
 /*@keyframes slideIn {
 	from {top: -300; opacity: 0}
