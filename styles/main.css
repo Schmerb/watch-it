@@ -22,8 +22,8 @@ nav h1 {
 
 .container {
 	border: 1px solid black;
-	margin: 10px auto;
-	max-width: 800px;
+	margin: 10px 10%;
+	max-width: 1300px;
 }
 
 .query-form, .results {
@@ -58,11 +58,10 @@ nav h1 {
 }
 
 .modal-content {
-	background-color: #000;
+	background-color: lightgrey;
 	margin: auto;
 	padding: 0;
 	border: 1px solid #888;
-	;
 }
 
 .video-wrap {
