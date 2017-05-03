@@ -46,7 +46,7 @@ function openVideoLightbox(videoID) {
 
 // 
 // Displays a link to the channel associated with the video
-//  & handles call to  
+//  & invokes an event listener on link 
 // 
 function displayYoutubeChannel(videoObj) {
 	$('#chanelName').text(videoObj.snippet.channelTitle);
@@ -61,7 +61,7 @@ function displayYoutubeChannel(videoObj) {
 
 
 // 
-// Stops video from playing, resets to beginning
+// Stops video from playing, resets counter to beginning
 // 
 function stopVideo() {
 	var iframe = $('#myModal iframe');
