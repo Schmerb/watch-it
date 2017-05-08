@@ -50,15 +50,15 @@ nav h1 {
 
 .query {
 	display: block;
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 20px;
 	background: rgba(88,109,234,.7);  /* rgb(19,23,112) 159,151,236,.7 */
 	width: 100%;
 	height: 4em;
-	line-height: 4em;
-	padding: 0;
-	font-size: 15px;
 	border: none;
 	border-radius: 5px;
 	padding-left: 10px;
+
 }
 
 .query::placeholder {
@@ -81,7 +81,7 @@ nav h1 {
 	border: none;
 	border-radius: 5px;
 	background: rgba(88,109,234,.7);  /*#9F97EC;*/
-	cursor: url(../images/xxx007-128-ConvertImage.png), auto;
+	cursor: url(../images/white-with-black-border-ConvertImage.png) 15 5, auto;
 }
 
 .submit:hover {

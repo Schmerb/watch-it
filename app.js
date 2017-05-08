@@ -157,7 +157,7 @@ function displayYoutubeSearchData() {
 				img.attr('src', item.snippet.thumbnails.medium.url);
 				img.attr('id', item.id.videoId);
 				var label = $('<label></label>');
-				label.css('display', 'block');
+				label.css('display', 'block'); 
 				label.attr('for', img.attr('id'));
 				label.text(item.snippet.title);
 				var div = $('<div></div>');
