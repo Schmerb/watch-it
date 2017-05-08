@@ -138,7 +138,6 @@ function handleApiData(data) {
 // Then makes call to display data.
 // 
 function storeYoutubeSearchData(data) {
-	console.log(data);
 	state.data = data;
 	state.videos.push.apply(state.videos, data.items);
 }
